@@ -1,0 +1,72 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Volunion3.Models
+@model IndexModel
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+
+@{
+    ViewData["Title"] = "Home page";
+    var user = await UserManager.GetUserAsync(User);
+    var isVoluntario = user != null && await UserManager.IsInRoleAsync(user, "voluntario");
+    var isOrganizacao = user != null && await UserManager.IsInRoleAsync(user, "organizacao");
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Card 1: Usuário -->
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Usuário</h5>
+                    <p class="card-text">Gerencie seu perfil e informações.</p>
+                    <a href="/User" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Minhas Inscrições (Apenas Voluntário) -->
+        @if (isVoluntario)
+        {
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Minhas Inscrições</h5>
+                        <p class="card-text">Veja suas campanhas inscritas.</p>
+                        <a href="/Inscricoes" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Card 3: Minhas Campanhas (Apenas Organização) -->
+        @if (isOrganizacao)
+        {
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Gerenciar Minhas Campanhas</h5>
+                        <p class="card-text">Visualize e edite suas campanhas.</p>
+                        <a href="/MinhasCampanhas" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Card 4: Todas as Campanhas -->
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Todas as Campanhas</h5>
+                    <p class="card-text">Veja todas as campanhas disponíveis.</p>
+                    <a href="/Campanhas" class="btn btn-primary">Acessar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
