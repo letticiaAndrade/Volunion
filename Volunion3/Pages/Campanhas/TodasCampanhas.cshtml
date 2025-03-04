@@ -7,6 +7,23 @@
 
 <h2>Todas as Campanhas</h2>
 
+<!-- Formulário de Pesquisa -->
+<form method="get">
+    <div class="form-group">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="Titulo" class="form-control" value="@Model.Titulo">
+    </div>
+    <div class="form-group">
+        <label for="dataInicio">Data Início (a partir de):</label>
+        <input type="date" id="dataInicio" name="DataInicio" class="form-control" value="@Model.DataInicio?.ToString("yyyy-MM-dd")">
+    </div>
+    <div class="form-group">
+        <label for="local">Local:</label>
+        <input type="text" id="local" name="Local" class="form-control" value="@Model.Local">
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
 @if (Model.Campanhas.Any())
 {
     <table class="table table-striped">
@@ -19,7 +36,12 @@
                 <th>Data Fim</th>
                 <th>Máx. Voluntários</th>
                 <th>Inscritos</th>
-                <th>Ações</th>
+                 @if (Model.UsuarioEhVoluntario)
+                 {
+                  <th>
+                     Ações
+                  </th>
+                 }  
             </tr>
         </thead>
         <tbody>

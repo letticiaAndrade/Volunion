@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Volunion3.Models;
 using Volunion3.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Volunion3.Pages.Campanhas
 {
@@ -21,13 +24,39 @@ namespace Volunion3.Pages.Campanhas
         public List<Campanha> Campanhas { get; set; }
         public bool UsuarioEhVoluntario { get; set; }
 
-        public async Task OnGetAsync()
-        {
-            Campanhas = await _context.Campanhas
-            .Include(c => c.CampanhaVoluntarios)  
-            .Include(c => c.Organizacao)       
-            .ToListAsync();
+        // Filtros
+        public string Titulo { get; set; }
+        public string Local { get; set; }
+        public DateTime? DataInicio { get; set; }
 
+        public async Task OnGetAsync(string titulo, string local, DateTime? dataInicio)
+        {
+            // Aplica os filtros na busca
+            var campanhasQuery = _context.Campanhas.AsQueryable();
+
+            // Adiciona filtros conforme o valor dos parâmetros
+            if (!string.IsNullOrEmpty(titulo))
+            {
+                campanhasQuery = campanhasQuery.Where(c => c.Titulo.Contains(titulo));
+            }
+
+            if (!string.IsNullOrEmpty(local))
+            {
+                campanhasQuery = campanhasQuery.Where(c => c.Local.Contains(local));
+            }
+
+            if (dataInicio.HasValue)
+            {
+                campanhasQuery = campanhasQuery.Where(c => c.DataInicio >= dataInicio.Value);
+            }
+
+            // Carrega as campanhas com os filtros aplicados
+            Campanhas = await campanhasQuery
+                .Include(c => c.CampanhaVoluntarios) // Inclui as inscrições para poder contar
+                .Include(c => c.Organizacao)         // Inclui a organização, se necessário
+                .ToListAsync();
+
+            // Verifica se o usuário logado é um voluntário
             var user = await _userManager.GetUserAsync(User);
             UsuarioEhVoluntario = user != null && await _userManager.IsInRoleAsync(user, "voluntario");
         }
