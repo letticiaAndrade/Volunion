@@ -1,0 +1,41 @@
+﻿@page
+@model Volunion3.Pages.Campanhas.CriarCampanhaModel
+@{
+    ViewData["Title"] = "Criar Campanha";
+}
+
+<h2>Criar Nova Campanha</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input asp-for="Campanha.Titulo" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <textarea asp-for="Campanha.Descricao" class="form-control" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Local</label>
+        <input asp-for="Campanha.Local" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Data de Início</label>
+        <input asp-for="Campanha.DataInicio" type="date" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Data de Fim</label>
+        <input asp-for="Campanha.DataFim" type="date" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Número Máximo de Voluntários</label>
+        <input asp-for="Campanha.NumeroMaximoVoluntarios" type="number" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Criar Campanha</button>
+</form>

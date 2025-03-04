@@ -1,0 +1,52 @@
+﻿@page
+@model Volunion3.Pages.Campanhas.TodasCampanhasModel
+
+@{
+    ViewData["Title"] = "Todas as Campanhas";
+}
+
+<h2>Todas as Campanhas</h2>
+
+@if (Model.Campanhas.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Local</th>
+                <th>Data Início</th>
+                <th>Data Fim</th>
+                <th>Máx. Voluntários</th>
+                <th>Inscritos</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var campanha in Model.Campanhas)
+            {
+                <tr>
+                    <td>@campanha.Titulo</td>
+                    <td>@campanha.Descricao</td>
+                    <td>@campanha.Local</td>
+                    <td>@campanha.DataInicio.ToShortDateString()</td>
+                    <td>@campanha.DataFim.ToShortDateString()</td>
+                    <td>@campanha.NumeroMaximoVoluntarios</td>
+                    <td>@(campanha.CampanhaVoluntarios?.Count ?? 0)</td>
+                    <td>
+                        @if (Model.UsuarioEhVoluntario)
+                        {
+                            <form method="post" asp-page-handler="Inscrever" asp-route-id="@campanha.Id">
+                                <button type="submit" class="btn btn-primary">Inscrever-se</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Não há campanhas disponíveis no momento.</p>
+}

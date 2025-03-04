@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volunion3.Services;
 
@@ -11,9 +12,11 @@ using Volunion3.Services;
 namespace Volunion3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250301092945_FixCampaign2")]
+    partial class FixCampaign2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,26 +24,6 @@ namespace Volunion3.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CampanhaVoluntario", b =>
-                {
-                    b.Property<int>("CampanhaId")
-                        .HasMaxLength(450)
-                        .HasColumnType("int");
-
-                    b.Property<string>("VoluntarioId")
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("InscricaoData")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CampanhaId", "VoluntarioId");
-
-                    b.HasIndex("VoluntarioId");
-
-                    b.ToTable("CampanhaVoluntario");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -67,6 +50,20 @@ namespace Volunion3.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1c29e18e-0dcb-4bfa-aebf-48d7f46a5f1e",
+                            Name = "organizacao",
+                            NormalizedName = "organizacao"
+                        },
+                        new
+                        {
+                            Id = "9b94c9d5-40f8-44ff-947c-5763fdf18a75",
+                            Name = "voluntario",
+                            NormalizedName = "organizacao"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -187,6 +184,9 @@ namespace Volunion3.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CampanhaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -250,6 +250,8 @@ namespace Volunion3.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CampanhaId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -304,25 +306,6 @@ namespace Volunion3.Migrations
                     b.ToTable("Campanhas");
                 });
 
-            modelBuilder.Entity("CampanhaVoluntario", b =>
-                {
-                    b.HasOne("Volunion3.Models.Campanha", "Campanha")
-                        .WithMany("CampanhaVoluntarios")
-                        .HasForeignKey("CampanhaId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Volunion3.Models.ApplicationUser", "Voluntario")
-                        .WithMany("CampanhaVoluntarios")
-                        .HasForeignKey("VoluntarioId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Campanha");
-
-                    b.Navigation("Voluntario");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -374,6 +357,13 @@ namespace Volunion3.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Volunion3.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("Volunion3.Models.Campanha", null)
+                        .WithMany("VoluntariosInscritos")
+                        .HasForeignKey("CampanhaId");
+                });
+
             modelBuilder.Entity("Volunion3.Models.Campanha", b =>
                 {
                     b.HasOne("Volunion3.Models.ApplicationUser", "Organizacao")
@@ -385,14 +375,9 @@ namespace Volunion3.Migrations
                     b.Navigation("Organizacao");
                 });
 
-            modelBuilder.Entity("Volunion3.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("CampanhaVoluntarios");
-                });
-
             modelBuilder.Entity("Volunion3.Models.Campanha", b =>
                 {
-                    b.Navigation("CampanhaVoluntarios");
+                    b.Navigation("VoluntariosInscritos");
                 });
 #pragma warning restore 612, 618
         }

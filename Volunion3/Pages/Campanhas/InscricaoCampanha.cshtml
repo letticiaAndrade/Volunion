@@ -1,0 +1,24 @@
+﻿@page
+@model Volunion3.Pages.Campanhas.InscricaoCampanhaModel
+
+@{
+    ViewData["Title"] = "Inscrição em Campanha";
+}
+
+<h2>Inscreva-se na Campanha</h2>
+
+@if (Model.Campanha != null)
+{
+    <p><strong>@Model.Campanha.Titulo</strong></p>
+    <p>@Model.Campanha.Descricao</p>
+    <p>@Model.Campanha.Local</p>
+    <p>@Model.Campanha.DataInicio.ToShortDateString() - @Model.Campanha.DataFim.ToShortDateString()</p>
+
+    <form method="post">
+        <button type="submit" class="btn btn-primary">Inscrever-se</button>
+    </form>
+}
+else
+{
+    <p>Campanha não encontrada.</p>
+}

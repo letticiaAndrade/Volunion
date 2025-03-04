@@ -11,5 +11,6 @@ namespace Volunion3.Models
         public string TipoUsuario { get; set; } = "";
 
         public DateTime CreatedAt { get; set; }
+        public List<CampanhaVoluntario> CampanhaVoluntarios { get; set; } = new();
     }
 }

@@ -1,0 +1,57 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Volunion3.Models
+@model MinhasCampanhasModel
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Minhas Campanhas";
+}
+
+<h2>Minhas Campanhas</h2>
+
+@if (Model.Campanhas.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Local</th>
+                <th>Data Início</th>
+                <th>Data Fim</th>
+                <th>Máx. Voluntários</th>
+                <th>Inscritos</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var campanha in Model.Campanhas)
+            {
+                <tr>
+                    <td>@campanha.Titulo</td>
+                    <td>@campanha.Descricao</td>
+                    <td>@campanha.Local</td>
+                    <td>@campanha.DataInicio.ToShortDateString()</td>
+                    <td>@campanha.DataFim.ToShortDateString()</td>
+                    <td>@campanha.NumeroMaximoVoluntarios</td>
+                    <td>@(campanha.CampanhaVoluntarios?.Count ?? 0)</td>
+
+                    <td>
+                          <a asp-page="EditarCampanha" asp-route-id="@campanha.Id" class="btn btn-warning">Editar</a>
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@campanha.Id" onsubmit="return confirm('Tem certeza que deseja excluir esta campanha?');">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/Campanhas/Create" class="btn btn-primary">Criar Campanha</a>
+}
+else
+{
+    <p>Você ainda não criou nenhuma campanha.</p>
+    <a href="/Campanhas/Create" class="btn btn-primary">Criar Campanha</a>
+
+}

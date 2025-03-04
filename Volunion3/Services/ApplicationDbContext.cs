@@ -10,7 +10,9 @@ namespace Volunion3.Services
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
-
+        public DbSet<CampanhaVoluntario> CampanhaVoluntarios { get; set; }
+        public DbSet<Campanha> Campanhas { get; set; }
+        public DbSet<CampanhaVoluntario> CampanhasVoluntarios { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -28,8 +30,32 @@ namespace Volunion3.Services
                 Name = "voluntario",
                 NormalizedName = "organizacao"
             };
+            base.OnModelCreating(builder);
 
-            builder.Entity<IdentityRole>().HasData(organizacao, voluntario);
+            builder.Entity<CampanhaVoluntario>()
+                .HasKey(cv => new { cv.CampanhaId, cv.VoluntarioId });
+
+            builder.Entity<CampanhaVoluntario>()
+                .HasOne(cv => cv.Campanha)
+                .WithMany(c => c.CampanhaVoluntarios)
+                .HasForeignKey(cv => cv.CampanhaId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<CampanhaVoluntario>()
+                .HasOne(cv => cv.Voluntario)
+                .WithMany(v => v.CampanhaVoluntarios)
+                .HasForeignKey(cv => cv.VoluntarioId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+                builder.Entity<CampanhaVoluntario>()
+                .Property(cv => cv.VoluntarioId)
+             .HasMaxLength(450);
+
+                 builder.Entity<CampanhaVoluntario>()
+                .Property(cv => cv.CampanhaId)
+                .HasMaxLength(450);
+
         }
+
     }
 }

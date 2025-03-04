@@ -1,0 +1,41 @@
+﻿@page "{id}"
+@model Volunion3.Pages.Campanhas.EditarCampanhaModel
+
+<h2>Editar Campanha</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Campanha.Id" />
+
+    <div class="form-group">
+        <label asp-for="Campanha.Titulo"></label>
+        <input asp-for="Campanha.Titulo" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Campanha.Descricao"></label>
+        <textarea asp-for="Campanha.Descricao" class="form-control" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Campanha.Local"></label>
+        <input asp-for="Campanha.Local" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Campanha.DataInicio"></label>
+        <input type="date" asp-for="Campanha.DataInicio" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Campanha.DataFim"></label>
+        <input type="date" asp-for="Campanha.DataFim" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Campanha.NumeroMaximoVoluntarios"></label>
+        <input type="number" asp-for="Campanha.NumeroMaximoVoluntarios" class="form-control" required />
+    </div>
+
+    <button type="submit" asp-page-handler="Update" class="btn btn-primary">Salvar</button>
+    <a asp-page="MinhasCampanhas" class="btn btn-secondary">Cancelar</a>
+</form>

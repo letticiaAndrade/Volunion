@@ -1,0 +1,53 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using Volunion3.Models
+@model MinhasInscricoesModel
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Minhas Inscrições";
+}
+
+<h2>Minhas Inscrições</h2>
+
+@if (Model.Inscricoes.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Local</th>
+                <th>Data Início</th>
+                <th>Data Fim</th>
+                <th>Máx. Voluntários</th>
+                <th>Inscritos</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var campanha in Model.Inscricoes)
+            {
+                <tr>
+                    <td>@campanha.Titulo</td>
+                    <td>@campanha.Descricao</td>
+                    <td>@campanha.Local</td>
+                    <td>@campanha.DataInicio.ToShortDateString()</td>
+                    <td>@campanha.DataFim.ToShortDateString()</td>
+                    <td>@campanha.NumeroMaximoVoluntarios</td>
+                    <td>@(campanha.CampanhaVoluntarios?.Count ?? 0)</td>
+                    <td>
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@campanha.Id" onsubmit="return confirm('Tem certeza que deseja cancelar sua inscrição nesta campanha?');">
+                            <button type="submit" class="btn btn-danger">Cancelar Inscrição</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Você ainda não se inscreveu em nenhuma campanha.</p>
+    <a href="/Campanhas/TodasCampanhas" class="btn btn-primary">Ver Campanhas</a>
+}
