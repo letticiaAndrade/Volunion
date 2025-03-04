@@ -1,12 +1,9 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Volunion3.Models;
 using Volunion3.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Volunion3.Pages.Campanhas
 {
@@ -52,8 +49,8 @@ namespace Volunion3.Pages.Campanhas
 
             // Carrega as campanhas com os filtros aplicados
             Campanhas = await campanhasQuery
-                .Include(c => c.CampanhaVoluntarios) // Inclui as inscrições para poder contar
-                .Include(c => c.Organizacao)         // Inclui a organização, se necessário
+                .Include(c => c.CampanhaVoluntarios) 
+                .Include(c => c.Organizacao)         
                 .ToListAsync();
 
             // Verifica se o usuário logado é um voluntário
