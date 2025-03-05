@@ -30,7 +30,6 @@ namespace Volunion3.Models
         [Required]
         public string OrganizacaoId { get; set; }
 
-        [ForeignKey("OrganizacaoId")]
         public ApplicationUser Organizacao { get; set; }
 
         public List<CampanhaVoluntario> CampanhaVoluntarios { get; set; } = new();

@@ -35,19 +35,24 @@ public class MinhasCampanhasModel : PageModel
         return RedirectToPage();
     }
 
-    public async Task OnGetAsync()
-    {
-        var user = await _userManager.GetUserAsync(User);
-
-        if (user == null)
+        public async Task OnGetAsync()
         {
-            Campanhas = new List<Campanha>();
-            return;
-        }
+            // Obtenha o usuário logado
+            var user = await _userManager.GetUserAsync(User);
 
-        Campanhas = await _context.Campanhas
-            .Include(c => c.CampanhaVoluntarios)
-            .Where(c => c.OrganizacaoId == user.Id)
-            .ToListAsync();
+            if (user != null)
+            {
+                // Verifique se o usuário tem campanhas associadas
+                Campanhas = await _context.Campanhas
+                     .Include(c => c.CampanhaVoluntarios)
+                    .Where(c => c.OrganizacaoId == user.Id) // Ajuste isso conforme sua lógica de negócio
+                    .ToListAsync();
+            }
+            else
+            {
+                Campanhas = new List<Campanha>(); // Caso não tenha campanhas ou o usuário não seja encontrado
+            }
+        }
     }
-}
+
+

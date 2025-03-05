@@ -39,15 +39,17 @@ namespace Volunion3.Services
                 .HasOne(cv => cv.Campanha)
                 .WithMany(c => c.CampanhaVoluntarios)
                 .HasForeignKey(cv => cv.CampanhaId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<CampanhaVoluntario>()
                 .HasOne(cv => cv.Voluntario)
                 .WithMany(v => v.CampanhaVoluntarios)
                 .HasForeignKey(cv => cv.VoluntarioId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.Restrict);
 
-                builder.Entity<CampanhaVoluntario>()
+            builder.Entity<CampanhaVoluntario>()
                 .Property(cv => cv.VoluntarioId)
              .HasMaxLength(450);
 

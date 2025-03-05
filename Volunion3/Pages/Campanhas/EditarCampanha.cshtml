@@ -3,8 +3,10 @@
 
 <h2>Editar Campanha</h2>
 
-<form method="post">
+<form method="post" asp-page-handler="Update">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="Campanha.Id" />
+    <input type="hidden" asp-for="Campanha.OrganizacaoId" />
 
     <div class="form-group">
         <label asp-for="Campanha.Titulo"></label>
@@ -36,6 +38,6 @@
         <input type="number" asp-for="Campanha.NumeroMaximoVoluntarios" class="form-control" required />
     </div>
 
-    <button type="submit" asp-page-handler="Update" class="btn btn-primary">Salvar</button>
-    <a asp-page="MinhasCampanhas" class="btn btn-secondary">Cancelar</a>
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-page="/MinhasCampanhas" class="btn btn-secondary">Cancelar</a>
 </form>

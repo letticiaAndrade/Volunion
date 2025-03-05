@@ -13,60 +13,95 @@
     var isOrganizacao = user != null && await UserManager.IsInRoleAsync(user, "organizacao");
 }
 
+@section Styles {
+    <style>
+     
+        a.card {
+            text-decoration: none; /* Remove o sublinhado */
+            display: block; /* Faz o link ocupar toda a área do card */
+            border: 2px solid black; /* Define a borda preta inicialmente */
+            border-radius: 8px; /* Bordas arredondadas */
+            color: black; /* Cor do texto padrão */
+            transition: all 0.3s ease; /* Transição suave para todas as propriedades */
+            height: 100%
+        }
+
+        .col-md-3 {
+            display: flex;
+            flex: 1; /* Isso faz os cards ficarem com altura e largura iguais */
+            align-items: stretch; /* Faz com que os cards tenham altura igual */
+        }
+
+
+            /* Efeito de hover no card */
+            a.card:hover {
+                border-color: #812FFF; /* Muda a cor da borda para roxo (#812FFF) */
+                color: #812FFF; /* Muda a cor do texto para roxo (#812FFF) */
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Efeito de sombra ao passar o mouse */
+                transform: scale(1.05); /* Leve aumento do card ao passar o mouse */
+            }
+
+                /* Efeito de hover para o ícone */
+                a.card:hover i {
+                    color: #812FFF; /* Muda a cor do ícone para roxo (#812FFF) */
+                }
+    </style>
+}
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Bem vindo!!!</h1>
 </div>
 
 <div class="container mt-5">
     <div class="row">
         <!-- Card 1: Usuário -->
-        <div class="col-md-3">
-            <div class="card text-center">
-                <div class="card-body">
+        <div class="col-md-3 mb-4 h-100">
+            <a href="/User" class="card text-center">
+                <div class="card-body ">
+                    <i class="fa-solid fa-user fa-lg"></i>
                     <h5 class="card-title">Usuário</h5>
                     <p class="card-text">Gerencie seu perfil e informações.</p>
-                    <a href="/User" class="btn btn-primary">Acessar</a>
                 </div>
-            </div>
+            </a>
         </div>
 
         <!-- Card 2: Minhas Inscrições (Apenas Voluntário) -->
         @if (isVoluntario)
         {
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
+            <div class="col-md-3 mb-4 h-100">
+                <a href="/MinhasInscricoes" class="card text-center">
+                    <div class="card-body ">
+                        <i class="fa-solid fa-check fa-lg"></i>
                         <h5 class="card-title">Minhas Inscrições</h5>
                         <p class="card-text">Veja suas campanhas inscritas.</p>
-                        <a href="/MinhasInscricoes" class="btn btn-primary">Acessar</a>
                     </div>
-                </div>
+                </a>
             </div>
         }
 
         <!-- Card 3: Minhas Campanhas (Apenas Organização) -->
         @if (isOrganizacao)
         {
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
+            <div class="col-md-3 mb-4 h-100">
+                <a href="/MinhasCampanhas" class="card text-center">
+                    <div class="card-body ">
+                        <i class="fa-solid fa-bullhorn fa-lg"></i>
                         <h5 class="card-title">Gerenciar Minhas Campanhas</h5>
                         <p class="card-text">Visualize e edite suas campanhas.</p>
-                        <a href="/MinhasCampanhas" class="btn btn-primary">Acessar</a>
                     </div>
-                </div>
+                </a>
             </div>
         }
 
         <!-- Card 4: Todas as Campanhas -->
-        <div class="col-md-3">
-            <div class="card text-center">
+        <div class="col-md-3 mb-4 h-100">
+            <a href="/Campanhas/TodasCampanhas" class="card text-center">
                 <div class="card-body">
+                    <i class="fa-solid fa-hand-holding-heart fa-lg"></i>
                     <h5 class="card-title">Todas as Campanhas</h5>
                     <p class="card-text">Veja todas as campanhas disponíveis.</p>
-                    <a href="/Campanhas/TodasCampanhas" class="btn btn-primary">Acessar</a>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>

@@ -10,7 +10,7 @@
 
 <h2>Minhas Campanhas</h2>
 
-@if (Model.Campanhas.Any())
+@if (Model.Campanhas != null && Model.Campanhas.Any())
 {
     <table class="table table-striped">
         <thead>
@@ -38,7 +38,8 @@
                     <td>@(campanha.CampanhaVoluntarios?.Count ?? 0)</td>
 
                     <td>
-                          <a asp-page="EditarCampanha" asp-route-id="@campanha.Id" class="btn btn-warning">Editar</a>
+
+                        <a asp-page="/Campanhas/EditarCampanha" class="btn btn-warning" asp-route-id="@campanha.Id">Editar</a>
                         <form method="post" asp-page-handler="Delete" asp-route-id="@campanha.Id" onsubmit="return confirm('Tem certeza que deseja excluir esta campanha?');">
                             <button type="submit" class="btn btn-danger">Excluir</button>
                         </form>
