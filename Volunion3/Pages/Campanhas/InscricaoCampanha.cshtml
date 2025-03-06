@@ -5,7 +5,7 @@
     ViewData["Title"] = "Inscrição em Campanha";
 }
 
-<h2>Inscreva-se na Campanha</h2>
+<h2>Sign up for the Campaign</h2>
 
 @if (Model.Campanha != null)
 {
@@ -15,10 +15,10 @@
     <p>@Model.Campanha.DataInicio.ToShortDateString() - @Model.Campanha.DataFim.ToShortDateString()</p>
 
     <form method="post">
-        <button type="submit" class="btn btn-primary">Inscrever-se</button>
+        <button type="submit" class="btn btn-primary">Subscribe</button>
     </form>
 }
 else
 {
-    <p>Campanha não encontrada.</p>
+    <p>Campaign not found.</p>
 }

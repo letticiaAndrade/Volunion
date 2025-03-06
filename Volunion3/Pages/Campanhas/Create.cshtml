@@ -4,38 +4,38 @@
     ViewData["Title"] = "Criar Campanha";
 }
 
-<h2>Criar Nova Campanha</h2>
+<h2>Create new campaign</h2>
 
 <form method="post">
     <div class="mb-3">
-        <label class="form-label">Título</label>
+        <label class="form-label">Title</label>
         <input asp-for="Campanha.Titulo" class="form-control" required />
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Descrição</label>
+        <label class="form-label">Description</label>
         <textarea asp-for="Campanha.Descricao" class="form-control" required></textarea>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Local</label>
+        <label class="form-label">Location</label>
         <input asp-for="Campanha.Local" class="form-control" required />
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Data de Início</label>
+        <label class="form-label">Start Date</label>
         <input asp-for="Campanha.DataInicio" type="date" class="form-control" required />
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Data de Fim</label>
+        <label class="form-label">End Date</label>
         <input asp-for="Campanha.DataFim" type="date" class="form-control" required />
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Número Máximo de Voluntários</label>
+        <label class="form-label">Maximum Number of Volunteers</label>
         <input asp-for="Campanha.NumeroMaximoVoluntarios" type="number" class="form-control" required />
     </div>
 
-    <button type="submit" class="btn btn-primary">Criar Campanha</button>
+    <button type="submit" class="btn btn-primary">Create Campaign</button>
 </form>

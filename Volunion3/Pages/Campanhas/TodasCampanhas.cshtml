@@ -5,23 +5,23 @@
     ViewData["Title"] = "Todas as Campanhas";
 }
 
-<h2>Todas as Campanhas</h2>
+<h2>All Campaigns</h2>
 
 <!-- Formulário de Pesquisa -->
 <form method="get">
     <div class="form-group">
-        <label for="titulo">Título:</label>
+        <label for="titulo">Title:</label>
         <input type="text" id="titulo" name="Titulo" class="form-control" value="@Model.Titulo">
     </div>
     <div class="form-group">
-        <label for="dataInicio">Data Início (a partir de):</label>
+        <label for="dataInicio">Start Date (from):</label>
         <input type="date" id="dataInicio" name="DataInicio" class="form-control" value="@Model.DataInicio?.ToString("yyyy-MM-dd")">
     </div>
     <div class="form-group">
-        <label for="local">Local:</label>
+        <label for="local">Location:</label>
         <input type="text" id="local" name="Local" class="form-control" value="@Model.Local">
     </div>
-    <button type="submit" class="btn btn-primary">Buscar</button>
+    <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 @if (Model.Campanhas.Any())
@@ -29,17 +29,17 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Título</th>
-                <th>Descrição</th>
-                <th>Local</th>
-                <th>Data Início</th>
-                <th>Data Fim</th>
-                <th>Máx. Voluntários</th>
-                <th>Inscritos</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Max. Volunteers</th>
+                <th>Subscribers</th>
                  @if (Model.UsuarioEhVoluntario)
                  {
                   <th>
-                     Ações
+                     Actions
                   </th>
                  }  
             </tr>
@@ -59,7 +59,7 @@
                         @if (Model.UsuarioEhVoluntario)
                         {
                             <form method="post" asp-page-handler="Inscrever" asp-route-id="@campanha.Id">
-                                <button type="submit" class="btn btn-primary">Inscrever-se</button>
+                                <button type="submit" class="btn btn-primary">Subscribe</button>
                             </form>
                         }
                     </td>
@@ -70,5 +70,5 @@
 }
 else
 {
-    <p>Não há campanhas disponíveis no momento.</p>
+    <p>There are currently no campaigns available.</p>
 }
