@@ -8,21 +8,21 @@
     ViewData["Title"] = "Minhas Inscrições";
 }
 
-<h2>Minhas Inscrições</h2>
+<h2>My Subscriptions</h2>
 
 @if (Model.Inscricoes.Any())
 {
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Título</th>
-                <th>Descrição</th>
-                <th>Local</th>
-                <th>Data Início</th>
-                <th>Data Fim</th>
-                <th>Máx. Voluntários</th>
-                <th>Inscritos</th>
-                <th>Ações</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Max. Volunteers</th>
+                <th>Subscribers</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -37,8 +37,8 @@
                     <td>@campanha.NumeroMaximoVoluntarios</td>
                     <td>@(campanha.CampanhaVoluntarios?.Count ?? 0)</td>
                     <td>
-                        <form method="post" asp-page-handler="Delete" asp-route-id="@campanha.Id" onsubmit="return confirm('Tem certeza que deseja cancelar sua inscrição nesta campanha?');">
-                            <button type="submit" class="btn btn-danger">Cancelar Inscrição</button>
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@campanha.Id" onsubmit="return confirm('Are you sure you want to unsubscribe from this campaign?');">
+                            <button type="submit" class="btn btn-danger">Unsubscribe</button>
                         </form>
                     </td>
                 </tr>
@@ -48,6 +48,6 @@
 }
 else
 {
-    <p>Você ainda não se inscreveu em nenhuma campanha.</p>
-    <a href="/Campanhas/TodasCampanhas" class="btn btn-primary">Ver Campanhas</a>
+    <p>You have not yet signed up for any campaign.</p>
+    <a href="/Campanhas/TodasCampanhas" class="btn btn-primary">View Campaigns</a>
 }

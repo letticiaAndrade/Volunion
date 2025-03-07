@@ -64,21 +64,30 @@ namespace Volunion3.Pages.Campanhas
 
             if (user == null || !await _userManager.IsInRoleAsync(user, "voluntario"))
             {
-                return Unauthorized();
+                TempData["Erro"] = "Você precisa estar logado como voluntário para se inscrever.";
+                return RedirectToPage();
             }
 
             var campanha = await _context.Campanhas
                 .Include(c => c.CampanhaVoluntarios)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (campanha == null || campanha.CampanhaVoluntarios.Any(cv => cv.VoluntarioId == user.Id))
+            if (campanha == null)
             {
-                return BadRequest("Você já está inscrito nesta campanha ou a campanha não existe.");
+                TempData["Erro"] = "The campaign does not exist.";
+                return RedirectToPage();
+            }
+
+            if (campanha.CampanhaVoluntarios.Any(cv => cv.VoluntarioId == user.Id))
+            {
+                TempData["Erro"] = "You are already subscribed to this campaign.";
+                return RedirectToPage();
             }
 
             if (campanha.CampanhaVoluntarios.Count >= campanha.NumeroMaximoVoluntarios)
             {
-                return BadRequest("A campanha já atingiu o número máximo de voluntários.");
+                TempData["Erro"] = "The campaign has already reached the maximum number of volunteers.";
+                return RedirectToPage();
             }
 
             var inscricao = new CampanhaVoluntario
@@ -90,7 +99,9 @@ namespace Volunion3.Pages.Campanhas
             _context.CampanhaVoluntarios.Add(inscricao);
             await _context.SaveChangesAsync();
 
+            TempData["Sucesso"] = "Registration completed successfully!";
             return RedirectToPage();
         }
+
     }
 }
