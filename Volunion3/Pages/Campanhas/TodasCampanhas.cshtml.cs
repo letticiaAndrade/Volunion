@@ -21,17 +21,14 @@ namespace Volunion3.Pages.Campanhas
         public List<Campanha> Campanhas { get; set; }
         public bool UsuarioEhVoluntario { get; set; }
 
-        // Filtros
         public string Titulo { get; set; }
         public string Local { get; set; }
         public DateTime? DataInicio { get; set; }
 
         public async Task OnGetAsync(string titulo, string local, DateTime? dataInicio)
         {
-            // Aplica os filtros na busca
             var campanhasQuery = _context.Campanhas.AsQueryable();
 
-            // Adiciona filtros conforme o valor dos parâmetros
             if (!string.IsNullOrEmpty(titulo))
             {
                 campanhasQuery = campanhasQuery.Where(c => c.Titulo.Contains(titulo));
@@ -47,13 +44,11 @@ namespace Volunion3.Pages.Campanhas
                 campanhasQuery = campanhasQuery.Where(c => c.DataInicio >= dataInicio.Value);
             }
 
-            // Carrega as campanhas com os filtros aplicados
             Campanhas = await campanhasQuery
                 .Include(c => c.CampanhaVoluntarios) 
                 .Include(c => c.Organizacao)         
                 .ToListAsync();
 
-            // Verifica se o usuário logado é um voluntário
             var user = await _userManager.GetUserAsync(User);
             UsuarioEhVoluntario = user != null && await _userManager.IsInRoleAsync(user, "voluntario");
         }
@@ -64,7 +59,7 @@ namespace Volunion3.Pages.Campanhas
 
             if (user == null || !await _userManager.IsInRoleAsync(user, "voluntario"))
             {
-                TempData["Erro"] = "Você precisa estar logado como voluntário para se inscrever.";
+                TempData["Erro"] = "You must be logged in as a volunteer to register..";
                 return RedirectToPage();
             }
 
@@ -75,6 +70,12 @@ namespace Volunion3.Pages.Campanhas
             if (campanha == null)
             {
                 TempData["Erro"] = "The campaign does not exist.";
+                return RedirectToPage();
+            }
+
+            if (campanha.DataFim < DateTime.Now)
+            {
+                TempData["Erro"] = "The campaign has now ended and can no longer receive entries..";
                 return RedirectToPage();
             }
 
@@ -102,6 +103,7 @@ namespace Volunion3.Pages.Campanhas
             TempData["Sucesso"] = "Registration completed successfully!";
             return RedirectToPage();
         }
+
 
     }
 }

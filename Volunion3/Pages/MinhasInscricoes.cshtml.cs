@@ -31,11 +31,22 @@ public class MinhasInscricoesModel : PageModel
             return NotFound();
         }
 
+        var campanha = await _context.Campanhas
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (campanha == null || campanha.DataFim < DateTime.Now)
+        {
+            TempData["Erro"] = "It is not possible to unsubscribe from a campaign that has already ended..";
+            return RedirectToPage();
+        }
+
         _context.CampanhasVoluntarios.Remove(campanhaVoluntario);
         await _context.SaveChangesAsync();
 
+        TempData["Sucesso"] = "Unsubscription successful!";
         return RedirectToPage();
     }
+
 
     public async Task OnGetAsync()
     {

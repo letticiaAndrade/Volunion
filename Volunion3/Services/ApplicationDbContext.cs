@@ -10,6 +10,8 @@ namespace Volunion3.Services
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+        public DbSet<Avaliacao> Avaliacoes { get; set; }
+
         public DbSet<CampanhaVoluntario> CampanhaVoluntarios { get; set; }
         public DbSet<Campanha> Campanhas { get; set; }
         public DbSet<CampanhaVoluntario> CampanhasVoluntarios { get; set; }

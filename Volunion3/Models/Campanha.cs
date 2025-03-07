@@ -33,5 +33,8 @@ namespace Volunion3.Models
         public ApplicationUser Organizacao { get; set; }
 
         public List<CampanhaVoluntario> CampanhaVoluntarios { get; set; } = new();
+
+        public ICollection<Avaliacao> Avaliacoes { get; set; }
+
     }
 }

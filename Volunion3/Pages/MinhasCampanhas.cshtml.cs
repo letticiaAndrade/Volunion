@@ -22,35 +22,42 @@ public class MinhasCampanhasModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteAsync(int id)
     {
-        var campanha = await _context.Campanhas.FindAsync(id);
+        var campanha = await _context.Campanhas
+            .Include(c => c.CampanhaVoluntarios) 
+            .Include(c => c.Avaliacoes)         
+            .FirstOrDefaultAsync(c => c.Id == id);
 
         if (campanha == null)
         {
             return NotFound();
         }
 
+        _context.CampanhasVoluntarios.RemoveRange(campanha.CampanhaVoluntarios);
+
+        _context.Avaliacoes.RemoveRange(campanha.Avaliacoes);
+
         _context.Campanhas.Remove(campanha);
+
         await _context.SaveChangesAsync();
 
+        TempData["Sucesso"] = "Campaign successfully deleted!";
         return RedirectToPage();
     }
 
-        public async Task OnGetAsync()
+    public async Task OnGetAsync()
         {
-            // Obtenha o usuário logado
             var user = await _userManager.GetUserAsync(User);
 
             if (user != null)
             {
-                // Verifique se o usuário tem campanhas associadas
                 Campanhas = await _context.Campanhas
                      .Include(c => c.CampanhaVoluntarios)
-                    .Where(c => c.OrganizacaoId == user.Id) // Ajuste isso conforme sua lógica de negócio
+                    .Where(c => c.OrganizacaoId == user.Id) 
                     .ToListAsync();
             }
             else
             {
-                Campanhas = new List<Campanha>(); // Caso não tenha campanhas ou o usuário não seja encontrado
+                Campanhas = new List<Campanha>();
             }
         }
     }

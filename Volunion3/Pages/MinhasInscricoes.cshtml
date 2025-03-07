@@ -37,10 +37,24 @@
                     <td>@campanha.NumeroMaximoVoluntarios</td>
                     <td>@(campanha.CampanhaVoluntarios?.Count ?? 0)</td>
                     <td>
-                        <form method="post" asp-page-handler="Delete" asp-route-id="@campanha.Id" onsubmit="return confirm('Are you sure you want to unsubscribe from this campaign?');">
-                            <button type="submit" class="btn btn-danger">Unsubscribe</button>
-                        </form>
+                        @if (campanha.DataFim >= DateTime.UtcNow)
+                        {
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@campanha.Id" onsubmit="return confirm('Are you sure you want to unsubscribe from this campaign?');">
+                                <button type="submit" class="btn btn-danger">Unsubscribe</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Campaign Completed</span>
+                        }
                     </td>
+                    <td>
+                        @if (DateTime.UtcNow > campanha.DataFim)
+                        {
+                            <a href="/Campanhas/Avaliacoes/@campanha.Id" class="btn btn-warning">Evaluate</a>
+                        }
+                    </td>
+
                 </tr>
             }
         </tbody>
